@@ -3,6 +3,7 @@
 def parallel_processing(n, m, data):
     output = []
     threads_time_list = []
+
     seconds_count = 0
     for i in range(0, n):
         output.append([i, seconds_count])
@@ -10,14 +11,22 @@ def parallel_processing(n, m, data):
         data = data[1:]
 
     for i in range(len(data)):
+        zeroes_list=[]
         while 0 not in threads_time_list:
             for unit in range(len(threads_time_list)):
                 threads_time_list[unit] -=1
                 if (threads_time_list[unit] == 0):
-                    next = unit
+                    zeroes_list.append(unit)
             seconds_count+=1
-        output.append([next, seconds_count])
-        threads_time_list[next] = data[i]
+        for zero in range(len(zeroes_list)):
+            output.append([zeroes_list[zero], seconds_count]) 
+            threads_time_list[zeroes_list[zero]] = data[i]
+            if len(zeroes_list)>1:
+                i+=1
+        if len(output) == m:
+            return output
+        
+        
         
 
     # TODO: write the function for simulating parallel tasks, 
@@ -48,4 +57,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
